@@ -5,7 +5,354 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sanjeesh's Website</title>
     <style>
+        body {<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        /* Root Variables */
+        :root {
+            --theme-color: #121212; /* Default theme color */
+            --text-color: white;    /* Default text color */
+        }
+
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--theme-color);
+            color: var(--text-color);
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+            background-color: #1e1e1e;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #282828;
+            color: var(--text-color);
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .tab:hover {
+            background-color: #404040;
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background-color: var(--theme-color);
+            color: var(--text-color);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Main Content */
+        .content {
+            padding: 20px;
+            text-align: center;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Settings Section */
+        .settings {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        label {
+            margin: 5px 0;
+        }
+
+        input[type="color"] {
+            width: 50px;
+            height: 50px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* FNaF Image */
+        .fnaf-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Notification System */
+        .notification-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .notification {
+            background-color: #444;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            max-width: 300px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification .progress-bar {
+            position: relative;
+            width: 100%;
+            background-color: #666;
+            height: 4px;
+            margin-top: 5px;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            width: 0;
+            background-color: #4caf50;
+            transition: width 3s linear;
+        }
+
+        .notification.error {
+            background-color: #e74c3c;
+        }
+
+        .notification.success {
+            background-color: #2ecc71;
+        }
+
+        /* Textbox & Button (Original Style) */
+        .textbox-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .textbox {
+            padding: 10px;
+            border-radius: 8px;
+            width: 250px;
+            border: 2px solid #ccc;
+            background-color: #282828;
+            color: white;
+            font-size: 16px;
+            font-weight: normal;
+            transition: background-color 0.3s, border 0.3s;
+        }
+
+        .textbox:focus {
+            background-color: #444;
+            border: 2px solid #4CAF50;
+            outline: none;
+        }
+
+        .eye-icon {
+            margin-left: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .button:hover {
+            background-color: #f0f0f0;
+            color: #121212;
+        }
+
+        /* Centering Content */
+        #passwordContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Entry -->
+    <div id="passwordContainer">
+        <h1>Sanjeesh's Website</h1>
+        <div class="container">
+            <h2>Hailey Davis Is My Loverrr🎶🎶</h2>
+            <div class="textbox-container">
+                <input id="passwordInput" class="textbox" type="password" placeholder="Enter Password">
+                <button id="togglePassword" class="eye-icon" aria-label="Toggle password visibility">👁️</button>
+            </div>
+            <button id="submitButton" class="button">Submit</button>
+        </div>
+        <!-- Notification container -->
+        <div id="notificationContainer" class="notification-container"></div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" style="display: none;">
+        <div class="header">
+            <div id="tab-dashboard" class="tab active">Dashboard</div>
+            <div id="tab-fnaf" class="tab">FNaF</div>
+            <div id="tab-settings" class="tab">Settings</div>
+        </div>
+
+        <div id="content-dashboard" class="content">
+            <h1>Welcome to Your Dashboard</h1>
+            <p>Here you can manage your preferences, explore tabs, and enjoy a personalized experience!</p>
+        </div>
+
+        <div id="content-fnaf" class="content" style="display: none;">
+            <h1>FNaF Fan Page</h1>
+            <img id="fnafImage" class="fnaf-image" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/354a767a-ff6c-4aaf-9845-38336b2df29a/d9vrc9y-989a59b4-a5e0-42de-b610-da8727b5e777.jpg/v1/fill/w_832,h_960,q_75,strp/toy_chica__fnaf_art__by_lerajack-d9vrc9y.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi8zNTRhNzY3YS1mZjZjLTRhYWYtOTg0NS0zODMzNmIyZGYyOWEvZDl2cmM5eS05ODlhNTliNC1hNWUwLTQyZGUtYjYxMC1kYTg3MjdiNWU3NzcuanBnIiwid2lkdGgiOiI8PTgzMiIsImhlaWdodCI6Ijw9OTYwIn1dXX0.LFrJS5NLbzfNGQaO7k8Rfq2CzbkOP0yT-HXLZlSbu_s" alt="FNaF Image">
+        </div>
+
+        <div id="content-settings" class="content" style="display: none;">
+            <h1>Settings</h1>
+            <div class="settings">
+                <label for="themeColorPicker">Theme Color:</label>
+                <input type="color" id="themeColorPicker" value="#121212">
+                <label for="textColorPicker">Text Color:</label>
+                <input type="color" id="textColorPicker" value="#ffffff">
+                <button id="setToDefault" class="button">Set to Default</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password Validation
+        const correctPassword = "win11hubbytroppykeySkey";
+        const passwordInput = document.getElementById("passwordInput");
+        const togglePassword = document.getElementById("togglePassword");
+        const submitButton = document.getElementById("submitButton");
+
+        const passwordContainer = document.getElementById("passwordContainer");
+        const dashboard = document.getElementById("dashboard");
+        const notificationContainer = document.getElementById("notificationContainer");
+
+        let isPasswordVisible = false;
+        togglePassword.addEventListener("click", () => {
+            isPasswordVisible = !isPasswordVisible;
+            passwordInput.type = isPasswordVisible ? "text" : "password";
+            togglePassword.textContent = isPasswordVisible ? "🙈" : "👁️";
+        });
+
+        submitButton.addEventListener("click", () => {
+            if (passwordInput.value.trim() === correctPassword) {
+                showNotification("Access Granted!", "success", 3000);
+                setTimeout(() => {
+                    passwordContainer.style.display = "none";
+                    dashboard.style.display = "block";
+                }, 1500);
+            } else {
+                showNotification("Incorrect Password!", "error", 5000);
+            }
+        });
+
+        // Notification System
+        function showNotification(message, type, duration) {
+            const notification = document.createElement("div");
+            notification.classList.add("notification", type);
+            notification.innerHTML = `<p>${message}</p><div class="progress-bar"><div class="progress-bar-inner"></div></div>`;
+            notificationContainer.appendChild(notification);
+
+            const progressBar = notification.querySelector(".progress-bar-inner");
+            setTimeout(() => {
+                progressBar.style.width = "100%";
+            }, 10);
+
+            setTimeout(() => {
+                notification.remove();
+            }, duration);
+        }
+
+        // Tab Navigation
+        const tabs = document.querySelectorAll('.tab');
+        const contents = {
+            dashboard: document.getElementById('content-dashboard'),
+            fnaf: document.getElementById('content-fnaf'),
+            settings: document.getElementById('content-settings'),
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.id.split('-')[1]; // Extract tab name (dashboard, fnaf, settings)
+
+                // Hide all content and remove active class
+                Object.values(contents).forEach(content => content.style.display = 'none');
+                tabs.forEach(t => t.classList.remove('active'));
+
+                // Show selected content and mark tab as active
+                contents[tabId].style.display = 'block';
+                tab.classList.add('active');
+            });
+        });
+
+        // Settings: Apply and Reset Theme
+        const themeColorPicker = document.getElementById('themeColorPicker');
+        const textColorPicker = document.getElementById('textColorPicker');
+        const setToDefaultButton = document.getElementById('setToDefault');
+
+        function applyThemeColors() {
+            document.documentElement.style.setProperty('--theme-color', themeColorPicker.value);
+            document.documentElement.style.setProperty('--text-color', textColorPicker.value);
+
+            // Save to localStorage
+            localStorage.setItem('themeColor', themeColorPicker.value);
+            localStorage.setItem('textColor', textColorPicker.value);
+        }
+
+        function resetToDefault() {
+            themeColorPicker.value = "#121212";
+            textColorPicker.value = "#ffffff";
+            applyThemeColors();
+            localStorage.removeItem('themeColor');
+            localStorage.removeItem('textColor');
+        }
+
+        // Apply saved colors on load
+        window.onload = () => {
+            const savedThemeColor = localStorage.getItem('themeColor');
+            const savedTextColor = localStorage.getItem('textColor');
+
+            if (savedThemeColor) themeColorPicker.value = savedThemeColor;
+            if (savedTextColor) textColorPicker.value = savedTextColor;
+
+            applyThemeColors();
+        };
+
+        themeColorPicker.addEventListener('input', applyThemeColors);
+        textColorPicker.addEventListener('input', applyThemeColors);
+        setToDefaultButton.addEventListener('click', resetToDefault);
+    </script>
+</body>
+</html>
+
             background-color: #121212; /* Modern dark theme */
             color: white;
             font-family: Arial, sans-serif;
